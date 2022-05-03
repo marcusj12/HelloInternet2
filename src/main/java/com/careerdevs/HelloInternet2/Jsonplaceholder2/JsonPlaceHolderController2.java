@@ -47,8 +47,22 @@ public class JsonPlaceHolderController2 {
         return restTemplate.getForObject("https://jsonplaceholder.typicode.com/comments?postId=" + id, Object.class);
     }
 
-    @PostMapping("/post") //http:/jsonplaceholder2/post
-        public Object
+    @PostMapping("/posts")
+        public Post createPost(RestTemplate restTemplate, @RequestBody Post newPost) {
+            return restTemplate.postForObject("https://jsonplaceholder.typicode.com/posts", newPost, Post.class);
+    }
+
+    @PutMapping("/posts/{id}")
+        public String updatePost(RestTemplate restTemplate, @PathVariable int id, @RequestBody Post post){
+            restTemplate.put("https://jsonplaceholder.typicode.com/posts/" + id, post);
+            return "Post with id " + id + " successfully updated";
+    }
+
+    @DeleteMapping("/posts/{id}")
+        public String deletePost(RestTemplate restTemplate, @PathVariable int id){
+        restTemplate.delete("https://jsonplaceholder.typicode.com/posts/" + id);
+        return "Deleted post with ID " + id;
+    }
 
 }
 
